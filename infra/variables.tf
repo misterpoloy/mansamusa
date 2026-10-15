@@ -11,8 +11,9 @@ variable "aws_region" {
 }
 
 variable "budget_email" {
-  description = "Where budget alerts go."
+  description = "Where budget alerts go. Empty skips the budget (set it before real use)."
   type        = string
+  default     = ""
 }
 
 variable "budget_limit_usd" {

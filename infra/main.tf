@@ -3,6 +3,7 @@ locals {
 }
 
 module "budget" {
+  count     = var.budget_email == "" ? 0 : 1
   source    = "./modules/budget"
   name      = var.project
   limit_usd = var.budget_limit_usd
