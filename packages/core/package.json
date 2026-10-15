@@ -1,0 +1,49 @@
+{
+  "name": "@mansamusa/core",
+  "version": "0.1.0",
+  "description": "Mansa Musa agent core: ConverseStream tool loop, Zod tool contracts, registries, persona and pure finance compute.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./sse": {
+      "types": "./dist/sse.d.ts",
+      "import": "./dist/sse.js"
+    },
+    "./compute": {
+      "types": "./dist/compute/index.d.ts",
+      "import": "./dist/compute/index.js"
+    },
+    "./contracts": {
+      "types": "./dist/contracts/index.d.ts",
+      "import": "./dist/contracts/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "prepack": "yarn build"
+  },
+  "peerDependencies": {
+    "zod": "^3.23.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1149.0",
+    "zod-to-json-schema": "^3.25.2"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "~5.9.3",
+    "zod": "^3.25.76"
+  }
+}

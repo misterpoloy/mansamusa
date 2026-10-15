@@ -1,0 +1,24 @@
+{
+  "name": "mansamusa",
+  "private": true,
+  "description": "An AWS Bedrock agent for a real personal-finance app: one ConverseStream tool loop, two runtimes.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "yarn@4.2.2",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "yarn workspaces foreach -Apt run build",
+    "typecheck": "yarn workspaces foreach -Ap run typecheck",
+    "test": "vitest run",
+    "smoke": "tsx scripts/smoke-core.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.7"
+  }
+}

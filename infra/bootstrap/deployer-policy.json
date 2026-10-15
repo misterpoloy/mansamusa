@@ -1,0 +1,133 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Bedrock",
+      "Effect": "Allow",
+      "Action": ["bedrock:*", "bedrock-agentcore:*"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "MarketplaceModelAccess",
+      "Effect": "Allow",
+      "Action": ["aws-marketplace:ViewSubscriptions", "aws-marketplace:Subscribe", "aws-marketplace:Unsubscribe"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ProjectRoles",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateRole", "iam:DeleteRole", "iam:GetRole", "iam:UpdateRole", "iam:UpdateAssumeRolePolicy",
+        "iam:TagRole", "iam:UntagRole", "iam:ListRoleTags",
+        "iam:PutRolePolicy", "iam:GetRolePolicy", "iam:DeleteRolePolicy", "iam:ListRolePolicies",
+        "iam:AttachRolePolicy", "iam:DetachRolePolicy", "iam:ListAttachedRolePolicies",
+        "iam:ListInstanceProfilesForRole"
+      ],
+      "Resource": "arn:aws:iam::*:role/mansa*"
+    },
+    {
+      "Sid": "PassProjectRoles",
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "arn:aws:iam::*:role/mansa*",
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": ["bedrock-agentcore.amazonaws.com", "bedrock.amazonaws.com", "lambda.amazonaws.com", "scheduler.amazonaws.com"]
+        }
+      }
+    },
+    {
+      "Sid": "VercelOidcProvider",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateOpenIDConnectProvider", "iam:DeleteOpenIDConnectProvider", "iam:GetOpenIDConnectProvider",
+        "iam:TagOpenIDConnectProvider", "iam:UntagOpenIDConnectProvider",
+        "iam:AddClientIDToOpenIDConnectProvider", "iam:RemoveClientIDFromOpenIDConnectProvider",
+        "iam:UpdateOpenIDConnectProviderThumbprint"
+      ],
+      "Resource": "arn:aws:iam::*:oidc-provider/oidc.vercel.com/*"
+    },
+    {
+      "Sid": "AgentCoreServiceLinkedRole",
+      "Effect": "Allow",
+      "Action": "iam:CreateServiceLinkedRole",
+      "Resource": "*",
+      "Condition": { "StringLike": { "iam:AWSServiceName": "*.bedrock-agentcore.amazonaws.com" } }
+    },
+    {
+      "Sid": "Ecr",
+      "Effect": "Allow",
+      "Action": "ecr:*",
+      "Resource": "arn:aws:ecr:*:*:repository/mansamusa*"
+    },
+    {
+      "Sid": "EcrLogin",
+      "Effect": "Allow",
+      "Action": ["ecr:GetAuthorizationToken", "ecr:DescribeRepositories"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "Lambda",
+      "Effect": "Allow",
+      "Action": "lambda:*",
+      "Resource": "arn:aws:lambda:*:*:function:mansa*"
+    },
+    {
+      "Sid": "Scheduler",
+      "Effect": "Allow",
+      "Action": "scheduler:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "Budgets",
+      "Effect": "Allow",
+      "Action": ["budgets:ViewBudget", "budgets:ModifyBudget", "budgets:DescribeBudgetActionsForBudget", "budgets:ListTagsForResource", "budgets:TagResource", "budgets:UntagResource"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "SsmParameters",
+      "Effect": "Allow",
+      "Action": ["ssm:PutParameter", "ssm:GetParameter", "ssm:GetParameters", "ssm:DeleteParameter", "ssm:AddTagsToResource", "ssm:RemoveTagsFromResource", "ssm:ListTagsForResource"],
+      "Resource": "arn:aws:ssm:*:*:parameter/mansa/*"
+    },
+    {
+      "Sid": "SsmDescribe",
+      "Effect": "Allow",
+      "Action": "ssm:DescribeParameters",
+      "Resource": "*"
+    },
+    {
+      "Sid": "SsmDefaultKey",
+      "Effect": "Allow",
+      "Action": ["kms:Encrypt", "kms:Decrypt", "kms:GenerateDataKey", "kms:DescribeKey"],
+      "Resource": "*",
+      "Condition": { "StringLike": { "kms:ViaService": "ssm.*.amazonaws.com" } }
+    },
+    {
+      "Sid": "Logs",
+      "Effect": "Allow",
+      "Action": "logs:*",
+      "Resource": [
+        "arn:aws:logs:*:*:log-group:/aws/lambda/mansa*",
+        "arn:aws:logs:*:*:log-group:/aws/lambda/mansa*:*",
+        "arn:aws:logs:*:*:log-group:/aws/bedrock-agentcore/*",
+        "arn:aws:logs:*:*:log-group:/aws/bedrock-agentcore/*:*",
+        "arn:aws:logs:*:*:log-group:aws/spans",
+        "arn:aws:logs:*:*:log-group:aws/spans:*"
+      ]
+    },
+    {
+      "Sid": "ObservabilitySetup",
+      "Effect": "Allow",
+      "Action": [
+        "logs:DescribeLogGroups", "logs:PutResourcePolicy", "logs:DescribeResourcePolicies", "logs:DeleteResourcePolicy",
+        "logs:PutDeliverySource", "logs:PutDeliveryDestination", "logs:CreateDelivery", "logs:GetDelivery", "logs:DeleteDelivery",
+        "logs:DescribeDeliveries", "logs:DescribeDeliverySources", "logs:DescribeDeliveryDestinations",
+        "logs:DeleteDeliverySource", "logs:DeleteDeliveryDestination",
+        "xray:UpdateTraceSegmentDestination", "xray:GetTraceSegmentDestination", "xray:UpdateIndexingRule", "xray:GetIndexingRules",
+        "cloudwatch:GetMetricData", "cloudwatch:ListMetrics"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
